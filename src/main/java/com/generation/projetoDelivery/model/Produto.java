@@ -1,18 +1,17 @@
 package com.generation.projetoDelivery.model;
 
-import org.springframework.data.annotation.Id;
+import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-
-import java.math.BigDecimal;
-
 
 @Entity
 @Table(name = "tb_produtos")
@@ -34,12 +33,12 @@ public class Produto {
 	    @NotNull (message = "O atributo estoque é obrigatório!")
 	    private Double estoque;
 	    
-	    @OneToMany
-	    @JoinColumn(name = "tb_categoria_id")
-	    private Categoria categoria;
-	    
-	    @OneToMany
-	    @JoinColumn(name = "tb_usuario_id") 
+	    @ManyToOne 
+	    @JsonIgnoreProperties("produto")
+	    private Categoria categoria; 
+
+	    @ManyToOne
+	    @JsonIgnoreProperties("produto")
 	    private Usuario usuario;
 
 		public Usuario getUsuario() {
