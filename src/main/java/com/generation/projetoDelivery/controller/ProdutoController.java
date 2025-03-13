@@ -1,5 +1,6 @@
 package com.generation.projetoDelivery.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,6 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.generation.projetoDelivery.model.Produto;
 import com.generation.projetoDelivery.repository.CategoriaRepository;
 import com.generation.projetoDelivery.repository.ProdutoRepository;
+import com.generation.projetoDelivery.service.ProdutoService;
 
 import jakarta.validation.Valid;
 
@@ -34,6 +37,8 @@ public class ProdutoController {
 	
 	@Autowired
 	private CategoriaRepository categoriaRepository;
+	
+	@Autowired private ProdutoService produtoService;
 	
 	@GetMapping
 	public ResponseEntity<List<Produto>> getAll() {
@@ -85,5 +90,14 @@ public class ProdutoController {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		
 		produtoRepository.deleteById(id);
+    }
+	
+	@PutMapping("/{id}/desconto")
+    public ResponseEntity<Produto> aplicarDesconto(
+            @PathVariable Long id,
+            @RequestParam BigDecimal percentualDesconto) {
+
+        Produto produtoComDesconto = produtoService.aplicarDesconto(id, percentualDesconto);
+        return ResponseEntity.ok(produtoComDesconto);
     }
 }
