@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.generation.projetoDelivery.model.Categoria;
 import com.generation.projetoDelivery.model.Usuario;
 import com.generation.projetoDelivery.repository.UsuarioRepository;
 
@@ -43,20 +44,16 @@ public class UsuarioController {
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
+	 @PostMapping("/cadastrar")
+	    public ResponseEntity<Usuario> post(@Valid @RequestBody Usuario usuario){
+	        return ResponseEntity.status(HttpStatus.CREATED)
+	                .body(usuarioRepository.save(usuario));
+	    }
 	
-	@PostMapping
-	public ResponseEntity<Usuario> post(@RequestBody @Valid Usuario usuario) {
-		if (usuarioRepository.findById(usuario.getId()).isPresent()) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-		}
-
-		Usuario novoUsuario = usuarioRepository.save(usuario);
-		return ResponseEntity.status(HttpStatus.CREATED).body(novoUsuario);
-	}
 
 	@PutMapping
-	public ResponseEntity<Usuario> putUsuario(@Valid @RequestBody Usuario usuario) {
-		if (usuarioRepository.existsById(usuario.getId())) {
+	public ResponseEntity<Usuario> put(@Valid @RequestBody Usuario usuario) {
+		if (!usuarioRepository.existsById(usuario.getId())) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 
