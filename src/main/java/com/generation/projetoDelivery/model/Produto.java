@@ -37,6 +37,18 @@ public class Produto {
 	    @OneToMany
 	    @JoinColumn(name = "tb_categoria_id")
 	    private Categoria categoria;
+	    
+	    @OneToMany
+	    @JoinColumn(name = "tb_usuario_id") 
+	    private Usuario usuario;
+
+		public Usuario getUsuario() {
+			return usuario;
+		}
+
+		public void setUsuario(Usuario usuario) {
+			this.usuario = usuario;
+		}
 
 		public Long getId() {
 			return id;
