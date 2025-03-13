@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "tb-categoria")
+@Table(name = "tb_categorias")
 public class Categoria {
 
 	
